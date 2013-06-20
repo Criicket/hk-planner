@@ -1,0 +1,11 @@
+<openerp>
+    <data>
+        <record model="ir.actions.client" id="action_hk_show_planner">
+            <field name="name">Kapacitás tervezés</field>
+            <field name="tag">showcapacityplanner</field>
+        </record>
+
+        <menuitem name="Kapacitás tervezés" id="menu_hk_planner" action="action_hk_show_planner"/>
+
+    </data>
+</openerp>
