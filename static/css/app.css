@@ -1,30 +1,111 @@
 /* app css stylesheet */
 
-.menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
+.hk.tableContainer{
+    width: 1000px;
+    height: 700px;
 }
 
-.menu:before {
-  content: "[";
+.hk.headTable{
+    width: 1000px;
+    height: 21px;
 }
 
-.menu:after {
-  content: "]";
+.hk .side{
+    float:left;
+    width: 200px;
+    overflow: hidden;
+    border-right-style: double;
+    border-right-color: #d3d3d3;
+    border-right-width: 2px;
 }
 
-.menu > li {
-  display: inline;
+.hk .headTable .side{
+    float:left;
 }
 
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
+.hk td div {
+    white-space:nowrap;
+    text-overflow: clip ;
+    overflow: hidden;
+    width: 100px;
+}
+.hk .side td div{
+    width: 200px;
 }
 
-.menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
+.hk td{
+    border: solid 1px #d3d3d3;
+}
+.hk tr{
+    height: 1em;
+}
+
+.hkscroll-x{
+    overflow-x: scroll;
+}
+
+.hkscroll-y{
+    overflow-y: scroll;
+    max-height: 100%;
+}
+
+.noscrollbar-x::-webkit-scrollbar{
+    display:none;
+}
+
+.noscroll-y{
+    overflow-y: hidden;
+}
+
+.calcField{
+    background-color: #F0EEEE;
+}
+
+/*.hk.row-fluid [class*="span"]{*/
+    /*margin:0px;*/
+/*}*/
+
+/*.hkdebug{*/
+    /*width: 2000px;*/
+/*}*/
+
+/*table.hk{*/
+    /*table-layout: fixed;*/
+    /*overflow: hidden;*/
+    /*display: inline-block;*/
+
+/*}*/
+
+/*td.hk{*/
+    /*width: 30px;*/
+    /*overflow: hidden;*/
+    /*display: inline-block;*/
+    /*white-space: nowrap;*/
+/*}*/
+.hk table{
+    background-color: #ffffff;
+}
+.hk .body{
+
+}
+.hk.scrollTable .body .content{
+
+}
+.hk.scrollTable .hk-side-head{
+
+}
+.hk.scrollTable .hk-head{
+
+}
+.hk.scrollTable .hk-side{
+
+}
+.hk.scrollTable .hk-body{
+
+}
+.hk .side td{
+}
+.hk td .placeholder{
+    /*width:100%;*/
+    /*background:blue;*/
 }

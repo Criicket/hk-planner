@@ -1,0 +1,84 @@
+<templates>
+    <div t-name="hk_planner.dollopTrack">
+        <div id="hkp-dollopTrack" ng-app="hkp">
+            <div ng-controller="DollopTrackCtrl" class="">
+                <div class="hk tableContainer">
+                    <div class="hk">
+                        <div class="side">
+                            <table class="hk-side ">
+                                <tr ng-repeat="(key,row) in dollopData" ng-show="$first">
+                                    <td class="hk">
+                                        <div>Masszagyártás</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="wrapper">
+                            <div class="body hkscroll-x noscrollbar-x">
+                                <table class="hk-body-head ">
+                                    <tr ng-repeat="row in dollopData" ng-show="$first">
+                                        <td class="hk" ng-repeat="(key,cell) in row">
+                                            <div>{{key}}</div>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="hk hkscroll-y">
+                        <div class="side">
+
+                            <table class="hk-side ">
+                                <tr ng-repeat="(key,row) in dollopData">
+                                    <td class="hk">
+                                        <div>{{key}}</div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                        <div class="body hkscroll-x noscrollbar-x">
+
+                            <table class="hk-body hkscroll-y">
+                                <tr ng-repeat="row in dollopData">
+                                    <td class="hk" ng-repeat="cell in row">
+                                        <div>{{cell}}</div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+
+                    <div class="hk hkscroll-y">
+                        <div class="side">
+
+                            <table class="hk-side ">
+                                <tr ng-repeat="(key,row) in dollopData" ng-show="$first">
+                                    <td class="hk">
+                                        <div>{{key}}</div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                        <div class="body hkscroll-x" scroll-bind="">
+
+
+                            <table class="hk-body hkscroll-y">
+                                <tr ng-repeat="row in dollopData" ng-show="$first">
+                                    <td class="hk" ng-repeat="cell in row">
+                                        <div class="calcField">SUM</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</templates>
