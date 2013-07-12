@@ -22,8 +22,11 @@ Kapacitástervező modul a HK Ceram részére.
         'static/js/vendor/angular.js',
         'static/js/vendor/jsonselect.min.js',
         'static/js/controllers/controllers.js',
+        'static/js/controllers/tableCtrl.js',
+        'static/js/controllers/dollopTableCtrl.js',
         'static/js/services/services.js',
         'static/js/services/openerpService.js',
+        'static/js/services/calcService.js',
         'static/js/directives/directives.js'
     ],
     'qweb': [
