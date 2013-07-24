@@ -1,14 +1,14 @@
 openerp.hk_planner = function (instance) {
-    instance.web.client_actions.add('showDollopTrack', 'instance.hk_planner.HKPlanner');
+    instance.web.client_actions.add('showDollopPlan', 'instance.hk_planner.HKPlanner');
 
     instance.hk_planner.HKPlanner = instance.web.Widget.extend({
         template: 'hk_planner.home',
-        init: function (parent, dataset) {
+        init: function () {
             this._super.apply(this);
             angular.oeinstance = instance;
         },
 
-        start: function (argument) {
+        start: function () {
             var that = this;
             var $rootElement = $('#hkp-root');
             $rootElement.append(instance.web.qweb.render("hk_planner.dollopTrack", {widget: this}));
@@ -23,5 +23,5 @@ openerp.hk_planner = function (instance) {
                 'hkp.directives'
             ]);
         }
-    })
-}
+    });
+};

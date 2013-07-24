@@ -1,16 +1,15 @@
 <openerp>
     <data>
-        <record model="ir.actions.client" id="action_hk_show_track_dollop">
+        <record model="ir.actions.client" id="action_hk_show_plan_dollop">
             <field name="name">Masszagyártás</field>
-            <field name="tag">showDollopTrack</field>
+            <field name="tag">showDollopPlan</field>
         </record>
 
 
-        <menuitem name="Gyártás követés" id="menu_hk_track"/>
-            <menuitem name="Masszagyártás" id="menu_hk_track_dollop" parent="menu_hk_track"/>
-                <menuitem action="action_hk_show_track_dollop" id="menu_hk_track_dollop_dollop" parent="menu_hk_track_dollop"/>
+        <menuitem name="Kapacitás tervezés" id="menu_hk_plan"/>
+            <menuitem name="Masszagyártás" id="menu_hk_plan_dollop" parent="menu_hk_plan"/>
+                <menuitem action="action_hk_show_plan_dollop" id="menu_hk_plan_dollop_dollop" parent="menu_hk_plan_dollop"/>
 
-        <!--<menuitem name="Kapacitás tervezés" id="menu_hk_planner" action="action_hk_show_planner"/>-->
 
     </data>
 </openerp>
