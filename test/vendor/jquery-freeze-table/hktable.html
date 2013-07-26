@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="table-style.css"/>
+    <script type="text/javascript" src="/test/lib/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/test/lib/underscore.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <script type="text/javascript">
+        angular.module('hktable', ['filters','directives']);
+        function TableCtrl($scope){
+            $scope.colFreeze = 2;
+            $scope.header = ["Freeze1","Freeze2","Table head1","Table head2","Table head3","Table head4","Table head5","Table head6"];
+            $scope.table = [
+                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"Table cell","Table head2":"Table cell","Table head3":"Table cell","Table head4":"Table cell","Table head5":"Table cell","Table head6":"Table cell"},
+                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"Table cell","Table head2":"Table cell","Table head3":"Table cell","Table head4":"Table cell","Table head5":"Table cell","Table head6":"Table cell"},
+                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"Table cell","Table head2":"Table cell","Table head3":"Table cell","Table head4":"Table cell","Table head5":"Table cell","Table head6":"Table cell"},
+                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"Table cell","Table head2":"Table cell","Table head3":"Table cell","Table head4":"Table cell","Table head5":"Table cell","Table head6":"Table cell"},
+                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"Table cell","Table head2":"Table cell","Table head3":"Table cell","Table head4":"Table cell","Table head5":"Table cell","Table head6":"Table cell"},
+                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"Table cell","Table head2":"Table cell","Table head3":"Table cell","Table head4":"Table cell","Table head5":"Table cell","Table head6":"Table cell"},
+                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"Table cell","Table head2":"Table cell","Table head3":"Table cell","Table head4":"Table cell","Table head5":"Table cell","Table head6":"Table cell"},
+                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"Table cell","Table head2":"Table cell","Table head3":"Table cell","Table head4":"Table cell","Table head5":"Table cell","Table head6":"Table cell"}
+            ];
+            $scope.footer = ["Footer key","Footer cell","Footer cell","Footer cell","Footer cell","Footer cell","Footer cell"];
+        }
+
+
+        angular.module('filters', []);
+        angular.module('filters').filter('first', function() {
+            return function(input, n) {
+                return _.first(input, n);
+            };
+        });
+
+        angular.module('filters').filter('firstByKeys', function() {
+            return function(input, keyArray, n) {
+                var ret = {};
+                for (var i = 0; i<n; i++){
+                    var key = keyArray[i];
+                    ret[key] = input[key];
+                }
+                return ret;
+            };
+        });
+
+        angular.module('filters').filter('rest', function() {
+            return function(input, n) {
+                return _.rest(input, n);
+            };
+        });
+
+        angular.module('filters').filter('restByKeys', function() {
+            return function(input, keyArray, n) {
+                var ret = {};
+                for (var i = n; i<keyArray.length; i++){
+                    var key = keyArray[i];
+                    ret[key] = input[key];
+                }
+                return ret;
+            };
+        });
+
+        angular.module('directives', []);
+        angular.module('directives').directive('hkSideCell',function(){
+            return {
+                link: function(scope, element){
+                    var headerElement = angular.element('#hk-head-' + scope.$index);
+                    element.width(headerElement.width());
+
+                    var tableBody = angular.element('#hk-table-body');
+                    var sideBarWidth = headerElement.parent().width();
+                    tableBody.css('padding-left', sideBarWidth);
+                }
+            }
+        });
+        angular.module('directives').directive('hkBodyCell',function(){
+            return {
+                link: function(scope, element){
+                    var headerElement = angular.element('#hk-head-' + scope.colFreeze + scope.$index);
+                    element.width(headerElement.width());
+                }
+            }
+        });
+
+
+    </script>
+</head>
+<body ng-app="hktable">
+
+<div class="row" ng-controller="TableCtrl">
+    <div class="span12">
+        <div class="hk-table">
+            <div class="hk-table-sidebar">
+                <span class="hk-table-header">
+                    <span class="hk-table-head" id="{{'hk-head-' + $index}}" ng-repeat="head in header | first : colFreeze">
+                        {{head}}
+                    </span>
+                </span>
+
+                <div ng-repeat="row in table">
+                    <div class="hk-table-cell" hk-side-cell ng-repeat="cell in row | firstByKeys: header:colFreeze">
+                        {{cell}}
+                    </div>
+                </div>
+            </div>
+
+            <div id="hk-table-body">
+                <div class="hk-table-body-trunk">
+                    <span class="hk-table-header">
+                        <div id="{{'hk-head-' + colFreeze + $index}}" class="hk-table-head" ng-repeat="head in header | rest : colFreeze">
+                            {{head}}
+                        </div>
+                    </span>
+
+                    <div ng-repeat="row in table">
+                        <div class="hk-table-cell" hk-body-cell ng-repeat="cell in row | restByKeys: header:colFreeze">
+                            {{cell}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
