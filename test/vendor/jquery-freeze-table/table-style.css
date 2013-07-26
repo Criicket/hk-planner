@@ -1,0 +1,36 @@
+.hk-table {
+    background:#fefefe;
+    white-space: nowrap;
+    /*width: 100%;*/
+}
+
+.hk-table-sidebar {
+    display: inline-block;
+    float: left;
+    /*width: 200px;*/
+}
+
+.hk-table-body-trunk {
+    /*float: left;*/
+    /*clear: both;*/
+    display: inline-block;
+    overflow: auto;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.hk-table-header {
+    background-color: #d1d1ff;
+}
+.hk-table-head {
+    display: inline-block;
+    border: 1px solid;
+    padding: 4px;
+}
+
+.hk-table-cell {
+    display: inline-block;
+    border: 1px solid;
+    padding: 4px;
+    overflow: hidden;
+}
