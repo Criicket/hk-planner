@@ -6,22 +6,42 @@
     <script type="text/javascript" src="/test/lib/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="/test/lib/underscore.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <script type="text/javascript" src="jquery.resize.js"></script>
     <script type="text/javascript">
         angular.module('hktable', ['filters','directives']);
         function TableCtrl($scope){
             $scope.colFreeze = 2;
             $scope.header = ["Freeze1","Freeze2","Table head1","Table head2","Table head3","Table head4","Table head5","Table head6"];
             $scope.table = [
-                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"Table cell","Table head2":"Table cell","Table head3":"Table cell","Table head4":"Table cell","Table head5":"Table cell","Table head6":"Table cell"},
-                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"Table cell","Table head2":"Table cell","Table head3":"Table cell","Table head4":"Table cell","Table head5":"Table cell","Table head6":"Table cell"},
-                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"Table cell","Table head2":"Table cell","Table head3":"Table cell","Table head4":"Table cell","Table head5":"Table cell","Table head6":"Table cell"},
-                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"Table cell","Table head2":"Table cell","Table head3":"Table cell","Table head4":"Table cell","Table head5":"Table cell","Table head6":"Table cell"},
-                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"Table cell","Table head2":"Table cell","Table head3":"Table cell","Table head4":"Table cell","Table head5":"Table cell","Table head6":"Table cell"},
-                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"Table cell","Table head2":"Table cell","Table head3":"Table cell","Table head4":"Table cell","Table head5":"Table cell","Table head6":"Table cell"},
-                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"Table cell","Table head2":"Table cell","Table head3":"Table cell","Table head4":"Table cell","Table head5":"Table cell","Table head6":"Table cell"},
-                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"Table cell","Table head2":"Table cell","Table head3":"Table cell","Table head4":"Table cell","Table head5":"Table cell","Table head6":"Table cell"}
+                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"10000","Table head2":"10000","Table head3":"10000","Table head4":"10000","Table head5":"10000","Table head6":"10000"},
+                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"10000","Table head2":"10000","Table head3":"10000","Table head4":"10000","Table head5":"10000","Table head6":"10000"},
+                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"10000","Table head2":"10000","Table head3":"10000","Table head4":"10000","Table head5":"10000","Table head6":"10000"},
+                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"10000","Table head2":"10000","Table head3":"10000","Table head4":"10000","Table head5":"10000","Table head6":"10000"},
+                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"10000","Table head2":"10000","Table head3":"10000","Table head4":"10000","Table head5":"10000","Table head6":"10000"},
+                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"10000","Table head2":"10000","Table head3":"10000","Table head4":"10000","Table head5":"10000","Table head6":"10000"},
+                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"10000","Table head2":"10000","Table head3":"10000","Table head4":"10000","Table head5":"10000","Table head6":"10000"},
+                {"Freeze1":"Freeze cell1","Freeze2":"Freeze cell2","Table head1":"10000","Table head2":"10000","Table head3":"10000","Table head4":"10000","Table head5":"10000","Table head6":"10000"}
             ];
-            $scope.footer = ["Footer key","Footer cell","Footer cell","Footer cell","Footer cell","Footer cell","Footer cell"];
+            $scope.footer = [
+                {'name':"Op 1","operation":"sumColumns"}
+//                {'name':"Operation 2","operation":$scope.operationFunc1}
+            ];
+
+            $scope.call = function(func){
+                return this[func]();
+            };
+
+            $scope.sumColumns = function(){
+                var ret = [];
+                for (var col = $scope.colFreeze; col<$scope.header.length; col++){
+                    var colSum = 0;
+                    for (var row = 0; row<$scope.table.length; row++){
+                        colSum += parseInt($scope.table[row][$scope.header[col]]);
+                    }
+                    ret.push(colSum);
+                }
+                return ret;
+            };
         }
 
 
@@ -67,9 +87,12 @@
                     var headerElement = angular.element('#hk-head-' + scope.$index);
                     element.width(headerElement.width());
 
-                    var tableBody = angular.element('#hk-table-body');
+                    var tableBody = angular.element('.hk-table-body');
                     var sideBarWidth = headerElement.parent().width();
                     tableBody.css('padding-left', sideBarWidth);
+
+                    var footerSideCells = angular.element('.hk-table-sidebar .hk-table-foot');
+                    footerSideCells.width(sideBarWidth-2);
                 }
             }
         });
@@ -82,48 +105,117 @@
             }
         });
 
+        angular.module('directives').directive('hkTable', function ($window) {
+            return function (element) {
+                var table = angular.element('.hk-table');
+
+                var setSpacePadding = function(){
+                    var tableHeight = angular.element('.hk-table').height(),
+                            rowsHeight = angular.element(".hk-table-data").height(),
+                            headHeight = $('.hk-table-head').height(),
+                            footHeight = $('.hk-table-foot').height(),
+                            footWidth = $('.hk-table-foot').width();
+                    var newHeight = tableHeight - headHeight - footHeight*3;
+
+                    if(rowsHeight < newHeight){
+                        angular.element('.hk-padder').height(newHeight - rowsHeight);
+                        angular.element('.hk-table-data-scroll').height(rowsHeight)
+                    }else{
+                        angular.element('.hk-padder').height(0);
+                        angular.element('.hk-table-data-scroll').height(newHeight)
+                    }
+
+                    var dataTableWidth = angular.element('.hk-table-trunk .hk-table-header').width()
+                    var trunkWidth = angular.element('.hk-table-trunk').width()
+                    angular.element('.hk-table-trunk .hk-padder').width(dataTableWidth-2);
+                    if(trunkWidth > dataTableWidth){
+                        angular.element('.hk-table-body .hk-table-data-scroll').width(dataTableWidth);
+                    }else{
+                        var trunkWidth = angular.element('.hk-table-trunk').width()
+                        var trunkScroll = angular.element(this).scrollLeft();
+                        angular.element('.hk-table-body .hk-table-data-scroll').width(trunkWidth + trunkScroll);
+                    }
+
+                };
+
+                angular.element('.hk-table-trunk').scroll(function(){
+                    var trunkWidth = angular.element('.hk-table-trunk').width()
+                    var trunkScroll = angular.element(this).scrollLeft();
+                    angular.element('.hk-table-body .hk-table-data-scroll').width(trunkWidth + trunkScroll);
+                });
+
+                angular.element('.hk-table-body .hk-table-data-scroll').scroll(function(){
+                    var scrollTop = angular.element(this).scrollTop();
+                    angular.element('.hk-table-sidebar .hk-table-data-scroll').scrollTop(scrollTop);
+                });
+
+                table.resize('resize', function () {
+                    setSpacePadding();
+                });
+                setSpacePadding();
+            }
+        })
+
 
     </script>
 </head>
 <body ng-app="hktable">
-
-<div class="row" ng-controller="TableCtrl">
-    <div class="span12">
-        <div class="hk-table">
+        <div class="hk-table" hk-table ng-controller="TableCtrl">
             <div class="hk-table-sidebar">
                 <span class="hk-table-header">
-                    <span class="hk-table-head" id="{{'hk-head-' + $index}}" ng-repeat="head in header | first : colFreeze">
+                    <div class="hk-table-head" id="{{'hk-head-' + $index}}" ng-repeat="head in header | first : colFreeze">
                         {{head}}
-                    </span>
+                    </div>
                 </span>
+                <div class="hk-table-data-scroll">
+                    <div class="hk-table-sidedata">
+                        <div ng-repeat="row in table">
+                            <div class="hk-table-cell" hk-side-cell ng-repeat="cell in row | firstByKeys: header:colFreeze">
+                                {{cell}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <div ng-repeat="row in table">
-                    <div class="hk-table-cell" hk-side-cell ng-repeat="cell in row | firstByKeys: header:colFreeze">
-                        {{cell}}
+                <div class="hk-padder"></div>
+                <div class="hk-table-footer">
+                    <div class="hk-table-foot hk-table-cell" ng-repeat="foot in footer">
+                        {{foot.name}}
                     </div>
                 </div>
             </div>
 
-            <div id="hk-table-body">
-                <div class="hk-table-body-trunk">
+            <div class="hk-table-body">
+                <div class="hk-table-trunk" >
                     <span class="hk-table-header">
                         <div id="{{'hk-head-' + colFreeze + $index}}" class="hk-table-head" ng-repeat="head in header | rest : colFreeze">
                             {{head}}
                         </div>
                     </span>
 
-                    <div ng-repeat="row in table">
-                        <div class="hk-table-cell" hk-body-cell ng-repeat="cell in row | restByKeys: header:colFreeze">
+                    <div class="hk-table-data-scroll">
+                        <div class="hk-table-data">
+                            <div class="hk-table-row" ng-repeat="row in table">
+                                <div class="hk-table-cell" hk-body-cell ng-repeat="cell in row | restByKeys: header:colFreeze">
+                                    {{cell}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hk-padder"></div>
+                    <div class="hk-table-footer" ng-repeat="row in footer">
+                        <div class="hk-table-cell hk-table-foot" hk-body-cell ng-repeat="cell in call(row.operation)">
                             {{cell}}
                         </div>
                     </div>
+
+
+
                 </div>
             </div>
 
         </div>
-
     </div>
-</div>
-
 </body>
 </html>

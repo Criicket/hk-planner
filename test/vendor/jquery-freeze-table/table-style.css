@@ -1,28 +1,28 @@
+html,body{
+    height: 100%;
+    margin: 0px;
+}
 .hk-table {
+    height: 100%;
     background:#fefefe;
     white-space: nowrap;
-    /*width: 100%;*/
 }
 
 .hk-table-sidebar {
     display: inline-block;
     float: left;
-    /*width: 200px;*/
+    height: 100%;
 }
 
-.hk-table-body-trunk {
-    /*float: left;*/
-    /*clear: both;*/
+.hk-table-trunk {
     display: inline-block;
     overflow: auto;
     white-space: nowrap;
     width: 100%;
 }
 
-.hk-table-header {
-    background-color: #d1d1ff;
-}
 .hk-table-head {
+    background-color: #d1d1ff;
     display: inline-block;
     border: 1px solid;
     padding: 4px;
@@ -34,3 +34,28 @@
     padding: 4px;
     overflow: hidden;
 }
+
+.hk-table-data-scroll {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.hk-table-sidebar .hk-table-data-scroll {
+    overflow: hidden;
+}
+
+.hk-table-foot {
+    background-color: #fff6d9;
+}
+
+.hk-table-sidebar .hk-table-foot {
+    text-align: right;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.hk-padder{
+    border-left: 1px solid;
+    border-right: 1px solid;
+    background-color: #ffeeff;
+}
+
