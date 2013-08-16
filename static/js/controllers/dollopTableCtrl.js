@@ -2,7 +2,8 @@
 
 angular.module('hkp.controllers').
     controller('DollopTableCtrl', ['$scope', 'openerpService', 'calcService', 'Json2D', function ($scope, openerpService, calcService, Json2D) {
-        $scope.sortOrder = 0;
+        $scope.orderPredicate = 'key';
+        $scope.orderReverse = false;
 
         $scope.event = {};
         $scope.eventSortTableByRowName = function(){
@@ -37,21 +38,25 @@ angular.module('hkp.controllers').
             return calcService.getSumArray($scope.data);
         }
 
-        $scope.handleSortState = function(){
-            $scope.sortOrder++;
-            if ($scope.sortOrder == 2) {
-                $scope.sortOrder = -1;
-            }
+        $scope.orderByKey = function (cell) {
+            debugger
         }
 
-        $scope.sortDataByRowName = function () {
-            var newData = Json2D.sortByKey($scope.data, $scope.sortOrder);
-            $scope.data = newData;
-        }
-
-        $scope.sortDataByColumn = function () {
-            $scope.data = Json2D.sortByColumn($scope.data, $scope.sortOrder);
-        }
+//        $scope.handleSortState = function(){
+//            $scope.sortOrder++;
+//            if ($scope.sortOrder == 2) {
+//                $scope.sortOrder = -1;
+//            }
+//        }
+//
+//        $scope.sortDataByRowName = function () {
+//            var newData = Json2D.sortByKey($scope.data, $scope.sortOrder);
+//            $scope.data = newData;
+//        }
+//
+//        $scope.sortDataByColumn = function () {
+//            $scope.data = Json2D.sortByColumn($scope.data, $scope.sortOrder);
+//        }
 
         $scope.init();
     }]);
